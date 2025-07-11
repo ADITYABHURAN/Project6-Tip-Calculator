@@ -1,30 +1,30 @@
-//get all the elements from the HTML
 const billAmountInput = document.getElementById("bill-amount");
 const tipPercentageInput = document.getElementById("tip-percentage");
 const numberOfPeopleInput = document.getElementById("number-of-people");
-const calculateButton = document.getElementById("calculate-button");
 const totalTipDisplay = document.getElementById("TotalTip");
 const totalPerPersonDisplay = document.getElementById("TotalPerPerson");
 
-calculateButton.addEventListener("click", calculateTip);
+document.getElementById("tip-form").addEventListener("submit", calculateTip);
 
-function calculateTip() {
-    // Get the values from the inputs
+function calculateTip(event) {
+    event.preventDefault();
+
     const billAmount = parseFloat(billAmountInput.value);
     const tipPercentage = parseFloat(tipPercentageInput.value);
     const numberOfPeople = parseInt(numberOfPeopleInput.value);
 
-    // Validate inputs
-    if (isNaN(billAmount) || isNaN(tipPercentage) || isNaN(numberOfPeople) || numberOfPeople <= 0) {
-        alert("Please enter valid numbers.");
+    if (
+        isNaN(billAmount) || billAmount <= 0 ||
+        isNaN(tipPercentage) || tipPercentage < 0 ||
+        isNaN(numberOfPeople) || numberOfPeople <= 0
+    ) {
+        alert("Please enter valid, positive numbers.");
         return;
     }
 
-    // Calculate total tip and total per person
     const totalTip = (billAmount * tipPercentage) / 100;
     const totalPerPerson = (billAmount + totalTip) / numberOfPeople;
 
-    // Display the results
     totalTipDisplay.textContent = `Total Tip: $${totalTip.toFixed(2)}`;
     totalPerPersonDisplay.textContent = `Total Per Person: $${totalPerPerson.toFixed(2)}`;
 }
